@@ -1,0 +1,8 @@
+SQS mock docker image based on ElasticMQ
+Copyright © 2016 MeteoGroup Deutschland GmbH
+
+
+This product uses the following software:
+
+- ElasticMQ, Copyright 2011-2012 SoftwareMill and Adam Warski, released under Apache License 2.0
+- AWS SDK for Java, Copyright 2010-2014 Amazon.com, Inc., released under Apache License 2.0
