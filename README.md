@@ -1,5 +1,5 @@
 
-SQS mock
+SQS mock ![build status](https://travis-ci.org/MeteoGroup/sqsmock.svg)
 ========
 
 Docker image providing a SQS mock based on

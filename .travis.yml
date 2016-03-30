@@ -1,0 +1,15 @@
+sudo: required
+
+language: java
+jdk: jdk8
+
+services:
+  - docker
+
+install:
+  - mvn -f test validate
+
+script:
+  - ./build.sh
+  - docker run -ti -p 9324:9324 -d meteogroup/sqsmock
+  - mvn -f test test
