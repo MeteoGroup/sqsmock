@@ -19,7 +19,7 @@ By default _ElasticMQ_ is bound to port 9324. To select another port set
 the `ELASTICMQ_PORT` environment variable, e.g.:
 
 ```bash
-ELASTICMQ_PORT=1234 ./run.sh
+ELASTICMQ_PORT=9324 ./run.sh
 ```
 
 If your docker host is not `localhost` (e.g. you are using docker-maching)
@@ -30,12 +30,12 @@ environment variable, e.g.:
 ELASTICMQ_HOST=192.168.99.100 ./run.sh
 ```
 
-To run the tests run `mvn test` within the `test` directory. Per default
+To run the tests run `mvn -f test test` from the repository root. Per default
 tests try to connect to `http://127.0.0.1:9324`. This can be changed be
 setting the `sqsmock` system property, e.g.:
 
 ```bash
-mvn test -Dsqsmock=http://192.168.99.100:1234
+mvn -f test test -Dsqsmock=http://192.168.99.100:9324
 ```
 
 Copyright & Licences
