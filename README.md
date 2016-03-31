@@ -31,7 +31,7 @@ ELASTICMQ_HOST=192.168.99.100 ./run.sh
 ```
 
 To run the tests run `mvn -f test test` from the repository root. Per default
-tests try to connect to `http://127.0.0.1:9324`. This can be changed be
+tests try to connect to `http://localhost:9324`. This can be changed be
 setting the `sqsmock` system property, e.g.:
 
 ```bash

@@ -44,7 +44,7 @@ public class SQSMockTest {
     @BeforeMethod
     public void setUp() throws Exception {
         sqsmock = System.getProperty("sqsmock");
-        sqsmock = sqsmock != null ? sqsmock : "http://127.0.0.1:9324";
+        sqsmock = sqsmock != null ? sqsmock : "http://localhost:9324";
         client = new AmazonSQSClient(new AnonymousAWSCredentials());
         client.setEndpoint(sqsmock);
     }

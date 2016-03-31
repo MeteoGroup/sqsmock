@@ -29,7 +29,7 @@ include classpath("application.conf")
 
 node-address {
     protocol = http
-    host = ${ELASTICMQ_HOST:-127.0.0.1}
+    host = ${ELASTICMQ_HOST:-localhost}
     port = ${ELASTICMQ_PORT:-9324}
     context-path = ""
 }
