@@ -38,11 +38,12 @@ setting the `sqsmock` system property, e.g.:
 mvn -f test test -Dsqsmock=http://192.168.99.100:9324
 ```
 
-Please make sure to set the S3 endpoint in you S3 client. With the AWS Java
-SDK this is done by
+Please make sure to configure credentials and endpoint in you S3 client. For
+the AWS Java SDK this can be done by
 
 ```java
-client.setEndpoint("http://<s3mock ip>:<s3mock port>");
+client = new AmazonSQSClient(new AnonymousAWSCredentials());
+client.setEndpoint("http://<sqsmock ip>:<sqsmock port>");
 ```
 
 Copyright & Licences
