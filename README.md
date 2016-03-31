@@ -8,8 +8,10 @@ Docker image providing a SQS mock based on
 > ElasticMQ is a message queue system, offering an actor-based Scala and
 > an SQS-compatible REST (query) interface.
 
-`test` contains a java test suite showing the use of _SQS mock_ together
-with Amazon's [AWS SDK for Java ](https://aws.amazon.com/sdk-for-java/).
+`test` contains a java
+[test suite](test/src/test/java/org/meteogroup/sqsmock/SQSMockTest.java)
+showing the use of _SQS mock_ together with Amazon's
+[AWS SDK for Java](https://aws.amazon.com/sdk-for-java/).
 
 To build the image run `./build.sh`
 
@@ -39,7 +41,7 @@ mvn -f test test -Dsqsmock=http://192.168.99.100:9324
 ```
 
 Please make sure to configure credentials and endpoint in you S3 client. For
-the AWS Java SDK this can be done by
+the AWS SDK for Java this can be done by
 
 ```java
 client = new AmazonSQSClient(new AnonymousAWSCredentials());
