@@ -22,6 +22,7 @@ SOFTWARE.
 */
 package org.meteogroup.sqsmock;
 
+import com.amazonaws.auth.AnonymousAWSCredentials;
 import com.amazonaws.services.sqs.AmazonSQSClient;
 import com.amazonaws.services.sqs.model.*;
 import org.testng.annotations.AfterClass;
@@ -44,7 +45,7 @@ public class SQSMockTest {
     public void setUp() throws Exception {
         sqsmock = System.getProperty("sqsmock");
         sqsmock = sqsmock != null ? sqsmock : "http://127.0.0.1:9324";
-        client = new AmazonSQSClient();
+        client = new AmazonSQSClient(new AnonymousAWSCredentials());
         client.setEndpoint(sqsmock);
     }
 
