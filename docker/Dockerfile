@@ -27,7 +27,7 @@ ENV ELASTICMQ_WORK=/var/lib/elasticmq
 
 RUN mkdir -p "$ELASTICMQ_HOME" &&\
     cd "$ELASTICMQ_HOME" &&\
-    wget https://s3-eu-west-1.amazonaws.com/softwaremill-public/elasticmq-server-0.9.1.jar &&\
+    wget https://s3-eu-west-1.amazonaws.com/softwaremill-public/elasticmq-server-0.9.2.jar &&\
     ln -s elasticmq-server-*jar elasticmq-server
 
 RUN adduser -h "/var/lib/elasticmq" -k /var/empty/ -s /bin/false -D elasticmq elasticmq
