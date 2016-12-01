@@ -38,4 +38,4 @@ EOF
 ls
 pwd
 
-java -Dconfig.file="$ELASTICMQ_WORK/config" -jar "$ELASTICMQ_HOME/elasticmq-server"
+java -Dconfig.file="$ELASTICMQ_WORK/config" -jar "$ELASTICMQ_HOME/elasticmq-server.jar"

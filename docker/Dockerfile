@@ -25,10 +25,10 @@ FROM anapsix/alpine-java:jre8
 ENV ELASTICMQ_HOME=/opt/elasticmq
 ENV ELASTICMQ_WORK=/var/lib/elasticmq
 
-RUN mkdir -p "$ELASTICMQ_HOME" &&\
+RUN apk --no-cache add --update openssl &&\
+    mkdir -p "$ELASTICMQ_HOME" &&\
     cd "$ELASTICMQ_HOME" &&\
-    wget https://s3-eu-west-1.amazonaws.com/softwaremill-public/elasticmq-server-0.9.3.jar &&\
-    ln -s elasticmq-server-*jar elasticmq-server
+    wget https://s3-eu-west-1.amazonaws.com/softwaremill-public/elasticmq-server-0.11.1.jar -O elasticmq-server.jar
 
 RUN adduser -h "/var/lib/elasticmq" -k /var/empty/ -s /bin/false -D elasticmq elasticmq
 
