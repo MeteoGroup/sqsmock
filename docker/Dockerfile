@@ -37,4 +37,5 @@ COPY elasticmq.sh /
 
 EXPOSE 9324
 
-CMD exec su -s /bin/bash -c /elasticmq.sh elasticmq
+USER elasticmq
+CMD /elasticmq.sh
