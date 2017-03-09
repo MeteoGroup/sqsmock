@@ -25,7 +25,8 @@ FROM anapsix/alpine-java:jre8
 ENV ELASTICMQ_HOME=/opt/elasticmq
 ENV ELASTICMQ_WORK=/var/lib/elasticmq
 
-RUN apk --no-cache add --update openssl &&\
+RUN apk --no-cache --update upgrade &&\
+    apk --no-cache --update add openssl &&\
     mkdir -p "$ELASTICMQ_HOME" &&\
     cd "$ELASTICMQ_HOME" &&\
     wget https://s3-eu-west-1.amazonaws.com/softwaremill-public/elasticmq-server-0.12.0.jar -O elasticmq-server.jar
