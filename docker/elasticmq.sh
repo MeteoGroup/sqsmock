@@ -35,7 +35,4 @@ node-address {
 }
 EOF
 
-ls
-pwd
-
-java -Dconfig.file="$ELASTICMQ_WORK/config" -jar "$ELASTICMQ_HOME/elasticmq-server.jar"
+exec java -Dconfig.file="$ELASTICMQ_WORK/config" -jar "$ELASTICMQ_HOME/elasticmq-server.jar"
