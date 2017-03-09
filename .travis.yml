@@ -11,5 +11,5 @@ install:
 
 script:
   - ./build.sh
-  - docker run -ti -p 9324:9324 -d meteogroup/sqsmock
+  - docker run -t -p 9324:9324 -d meteogroup/sqsmock
   - mvn -f test test
