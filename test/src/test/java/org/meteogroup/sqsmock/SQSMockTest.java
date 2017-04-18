@@ -33,91 +33,91 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class SQSMockTest {
 
-    public static final String QUEUE_NAME = "test-queue";
-    public static final String MESSAGE_DATA = "message data";
-    private AmazonSQSClient client;
-    private String sqsmock;
-    private String queueUrl;
-    private String messageId;
-    private String receiptHandle;
+  public static final String QUEUE_NAME = "test-queue";
+  public static final String MESSAGE_DATA = "message data";
+  private AmazonSQSClient client;
+  private String sqsmock;
+  private String queueUrl;
+  private String messageId;
+  private String receiptHandle;
 
-    @BeforeMethod
-    public void setUp() throws Exception {
-        sqsmock = System.getProperty("sqsmock");
-        sqsmock = sqsmock != null ? sqsmock : "http://localhost:9324";
-        client = new AmazonSQSClient(new AnonymousAWSCredentials());
-        client.setEndpoint(sqsmock);
+  @BeforeMethod
+  public void setUp() throws Exception {
+    sqsmock = System.getProperty("sqsmock");
+    sqsmock = sqsmock != null ? sqsmock : "http://localhost:9324";
+    client = new AmazonSQSClient(new AnonymousAWSCredentials());
+    client.setEndpoint(sqsmock);
+  }
+
+  @Test
+  public void create_queue() throws Exception {
+
+    final CreateQueueResult createQueueResult = client.createQueue(QUEUE_NAME);
+
+    queueUrl = createQueueResult.getQueueUrl();
+    assertThat(queueUrl).startsWith(sqsmock).endsWith(QUEUE_NAME);
+  }
+
+  @Test(dependsOnMethods = "create_queue")
+  public void list_queue() throws Exception {
+
+    final ListQueuesResult result = client.listQueues();
+
+    assertThat(result.getQueueUrls()).contains(queueUrl);
+  }
+
+  @Test(dependsOnMethods = "list_queue")
+  public void delete_queue() throws Exception {
+
+    client.deleteQueue(queueUrl);
+
+    assertThat(client.listQueues().getQueueUrls()).excludes(queueUrl);
+  }
+
+  @Test(dependsOnMethods = "delete_queue")
+  public void prepare_queue() throws Exception {
+
+    queueUrl = client.createQueue(QUEUE_NAME).getQueueUrl();
+
+    assertThat(queueUrl).startsWith(sqsmock).endsWith(QUEUE_NAME);
+    assertThat(client.listQueues().getQueueUrls()).contains(queueUrl);
+    assertThat(client.receiveMessage(new ReceiveMessageRequest(queueUrl).withMaxNumberOfMessages(10)).getMessages()).isEmpty();
+  }
+
+  @Test(dependsOnMethods = "prepare_queue")
+  public void send_message() throws Exception {
+
+    final SendMessageResult result = client.sendMessage(queueUrl, MESSAGE_DATA);
+
+    messageId = result.getMessageId();
+    assertThat(messageId).isNotEmpty();
+  }
+
+  @Test(dependsOnMethods = "send_message")
+  public void receive_message() throws Exception {
+
+    final ReceiveMessageResult result = client.receiveMessage(queueUrl);
+
+    assertThat(result.getMessages()).isNotEmpty();
+    final Message message = result.getMessages().get(0);
+    assertThat(message.getMessageId()).isEqualTo(messageId);
+    assertThat(message.getBody()).isEqualTo(MESSAGE_DATA);
+    receiptHandle = message.getReceiptHandle();
+    assertThat(receiptHandle).isNotEmpty();
+  }
+
+  @Test(dependsOnMethods = "receive_message")
+  public void delete_message() throws Exception {
+
+    client.deleteMessage(queueUrl, receiptHandle);
+
+    // no exception
+  }
+
+  @AfterClass
+  public void tearDown() throws Exception {
+    if (queueUrl != null) {
+      client.deleteQueue(queueUrl);
     }
-
-    @Test
-    public void create_queue() throws Exception {
-
-        final CreateQueueResult createQueueResult = client.createQueue(QUEUE_NAME);
-
-        queueUrl = createQueueResult.getQueueUrl();
-        assertThat(queueUrl).startsWith(sqsmock).endsWith(QUEUE_NAME);
-    }
-
-    @Test(dependsOnMethods = "create_queue")
-    public void list_queue() throws Exception {
-
-        final ListQueuesResult result = client.listQueues();
-
-        assertThat(result.getQueueUrls()).contains(queueUrl);
-    }
-
-    @Test(dependsOnMethods = "list_queue")
-    public void delete_queue() throws Exception {
-
-        client.deleteQueue(queueUrl);
-
-        assertThat(client.listQueues().getQueueUrls()).excludes(queueUrl);
-    }
-
-    @Test(dependsOnMethods = "delete_queue")
-    public void prepare_queue() throws Exception {
-
-        queueUrl = client.createQueue(QUEUE_NAME).getQueueUrl();
-
-        assertThat(queueUrl).startsWith(sqsmock).endsWith(QUEUE_NAME);
-        assertThat(client.listQueues().getQueueUrls()).contains(queueUrl);
-        assertThat(client.receiveMessage(new ReceiveMessageRequest(queueUrl).withMaxNumberOfMessages(10)).getMessages()).isEmpty();
-    }
-
-    @Test(dependsOnMethods = "prepare_queue")
-    public void send_message() throws Exception {
-
-        final SendMessageResult result = client.sendMessage(queueUrl, MESSAGE_DATA);
-
-        messageId = result.getMessageId();
-        assertThat(messageId).isNotEmpty();
-    }
-
-    @Test(dependsOnMethods = "send_message")
-    public void receive_message() throws Exception {
-
-        final ReceiveMessageResult result = client.receiveMessage(queueUrl);
-
-        assertThat(result.getMessages()).isNotEmpty();
-        final Message message = result.getMessages().get(0);
-        assertThat(message.getMessageId()).isEqualTo(messageId);
-        assertThat(message.getBody()).isEqualTo(MESSAGE_DATA);
-        receiptHandle = message.getReceiptHandle();
-        assertThat(receiptHandle).isNotEmpty();
-    }
-
-    @Test(dependsOnMethods = "receive_message")
-    public void delete_message() throws Exception {
-
-        client.deleteMessage(queueUrl, receiptHandle);
-
-        // no exception
-    }
-
-    @AfterClass
-    public void tearDown() throws Exception {
-        if (queueUrl != null) {
-            client.deleteQueue(queueUrl);
-        }
-    }
+  }
 }
