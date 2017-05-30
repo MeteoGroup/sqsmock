@@ -29,7 +29,7 @@ RUN apk --no-cache --update upgrade &&\
     apk --no-cache --update add openssl &&\
     mkdir -p "$ELASTICMQ_HOME" &&\
     cd "$ELASTICMQ_HOME" &&\
-    wget https://s3-eu-west-1.amazonaws.com/softwaremill-public/elasticmq-server-0.13.4.jar -O elasticmq-server.jar
+    wget https://s3-eu-west-1.amazonaws.com/softwaremill-public/elasticmq-server-0.13.5.jar -O elasticmq-server.jar
 
 RUN adduser -h "/var/lib/elasticmq" -k /var/empty/ -s /bin/false -D elasticmq elasticmq
 
